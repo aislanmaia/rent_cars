@@ -16,7 +16,8 @@ defmodule RentCarsWeb.CoreComponents do
   """
   use Phoenix.Component
 
-  alias Phoenix.LiveView.JS, Phoenix.HTML
+  alias Phoenix.LiveView.JS
+  alias Phoenix.HTML.{Form, FormField}
   import RentCarsWeb.Gettext
 
   @doc """
@@ -292,7 +293,7 @@ defmodule RentCarsWeb.CoreComponents do
 
   slot :inner_block
 
-  def input(%{field: %FormField{} = field} = assigns) do
+  def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(field.errors, &translate_error(&1)))

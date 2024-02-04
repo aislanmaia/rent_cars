@@ -15,7 +15,7 @@ defmodule RentCars.DataCase do
   """
 
   use ExUnit.CaseTemplate
-  alias Ecto.Adapters.SQL
+  alias Ecto.Adapters.SQL.Sandbox
 
   using do
     quote do
