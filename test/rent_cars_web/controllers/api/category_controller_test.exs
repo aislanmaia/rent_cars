@@ -6,9 +6,9 @@ defmodule RentCarsWeb.Api.CategoryControllerTest do
 
     assert json_response(conn, 200)["data"] == [
              %{
-               id: "123",
-               description: "pumpkin 123",
-               name: "SPORT"
+               "description" => "pumpkin 123",
+               "id" => "123",
+               "name" => "SPORT"
              }
            ]
   end
