@@ -1,16 +1,11 @@
 defmodule RentCarsWeb.Api.CategoryController do
   use RentCarsWeb, :controller
+  alias RentCars.Categories
 
   def index(conn, _params) do
+    categories = Categories.list_categories()
+
     conn
-    |> json(%{
-      data: [
-        %{
-          description: "pumpkin 123",
-          id: "123",
-          name: "SPORT"
-        }
-      ]
-    })
+    |> render(:index, categories: categories)
   end
 end
