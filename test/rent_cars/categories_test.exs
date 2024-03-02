@@ -29,4 +29,11 @@ defmodule RentCars.CategoriesTest do
     assert "can't be blank" in errors_on(changeset).description
     assert %{description: ["can't be blank"]} = errors_on(changeset)
   end
+
+  test "get_category/1 without description" do
+    attrs = %{description: "pumpkin 123", name: "sport"}
+    {:ok, category} = Categories.create_category(attrs)
+
+    assert Categories.get_category(category.id) == category
+  end
 end
