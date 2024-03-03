@@ -21,9 +21,27 @@ defmodule RentCarsWeb.Api.CategoryController do
   end
 
   def show(conn, %{"id" => id}) do
-    category = Categories.get_category(id)
+    category = Categories.get_category!(id)
 
     conn
     |> render(:show, category: category)
+  end
+
+  def update(conn, %{"id" => id, "category" => category_params}) do
+    category = Categories.get_category!(id)
+
+    with {:ok, category} <- Categories.update_category(category, category_params) do
+      conn
+      |> put_resp_header("location", ~p"/api/categories/#{category.id}")
+      |> render(:show, category: category)
+    end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    category = Categories.get_category!(id)
+
+    with {:ok, _category} <- Categories.delete_category(category) do
+      send_resp(conn, :no_content, "")
+    end
   end
 end
