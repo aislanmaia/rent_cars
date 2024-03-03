@@ -28,6 +28,8 @@ defmodule RentCarsWeb.Router do
     get "/categories/:id", CategoryController, :show
 
     post "/categories", CategoryController, :create
+    put "/categories/:id", CategoryController, :update
+    delete "/categories/:id", CategoryController, :delete
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
