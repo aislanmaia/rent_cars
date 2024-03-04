@@ -24,7 +24,8 @@ defmodule RentCars.Accounts.User do
   end
 
   def changeset(attrs) do
-    %__MODULE{}
+    %__MODULE__{}
     |> cast(attrs, @fields ++ @required_fields)
+    |> validate_required(@required_fields)
   end
 end
