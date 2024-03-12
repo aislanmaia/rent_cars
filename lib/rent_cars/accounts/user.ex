@@ -27,5 +27,19 @@ defmodule RentCars.Accounts.User do
     %__MODULE__{}
     |> cast(attrs, @fields ++ @required_fields)
     |> validate_required(@required_fields)
+    |> validate_format(:email, ~r/@/, message: "invalid email format")
+    |> update_change(:email, &String.downcase/1)
+    |> validate_length(:password, min: 6, max: 100)
+    |> validate_confirmation(:password)
+    |> unique_constraint(:user_name)
+    |> unique_constraint(:email)
+    |> unique_constraint(:drive_license)
+    |> hash_password()
   end
+
+  defp hash_password(%{valid?: true, changes: %{password: password}} = changeset) do
+    change(changeset, password_hash: Argon2.hash_pwd_salt(password))
+  end
+
+  defp hash_password(changeset), do: changeset
 end
