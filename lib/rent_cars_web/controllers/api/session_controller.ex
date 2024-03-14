@@ -21,4 +21,13 @@ defmodule RentCarsWeb.Api.SessionController do
       |> render(:show, session: session)
     end
   end
+
+  def reset_password(conn, %{"email" => email}) do
+    with {:ok, _email, _token} <- Sessions.reset_password(email) do
+      conn
+      |> put_status(:no_content)
+      |> put_resp_header("content-type", "application/json")
+      |> json("")
+    end
+  end
 end

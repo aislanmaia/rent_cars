@@ -30,6 +30,7 @@ defmodule RentCarsWeb.Router do
 
     post("/sessions", SessionController, :create)
     post("/sessions/me", SessionController, :me)
+    post("/sessions/reset_password", SessionController, :reset_password)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
