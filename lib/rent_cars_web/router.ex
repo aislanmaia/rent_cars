@@ -27,6 +27,9 @@ defmodule RentCarsWeb.Router do
     resources "/users", UserController
     resources "/categories", CategoryController
     resources "/specifications", SpecificationController
+
+    post("/sessions", SessionController, :create)
+    post("/sessions/me", SessionController, :me)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
