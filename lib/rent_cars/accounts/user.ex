@@ -24,7 +24,11 @@ defmodule RentCars.Accounts.User do
   end
 
   def changeset(attrs) do
-    %__MODULE__{}
+    changeset(%__MODULE__{}, attrs)
+  end
+
+  def changeset(user, attrs) do
+    user
     |> cast(attrs, @fields ++ @required_fields)
     |> validate_required(@required_fields)
     |> validate_format(:email, ~r/@/, message: "invalid email format")
@@ -35,6 +39,10 @@ defmodule RentCars.Accounts.User do
     |> unique_constraint(:email)
     |> unique_constraint(:drive_license)
     |> hash_password()
+  end
+
+  def update_user(user, params) do
+    changeset(user, params)
   end
 
   defp hash_password(%{valid?: true, changes: %{password: password}} = changeset) do

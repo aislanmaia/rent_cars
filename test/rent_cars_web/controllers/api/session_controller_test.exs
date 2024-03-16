@@ -1,5 +1,6 @@
 defmodule RentCarsWeb.Api.SessionControllerTest do
   use RentCarsWeb.ConnCase
+  alias RentCars.Shared.Tokenr
 
   describe "handle sessions" do
     setup :include_normal_user_token
@@ -17,8 +18,8 @@ defmodule RentCarsWeb.Api.SessionControllerTest do
       assert json_response(conn, 200)["data"]["user"]["data"]["email"] == user.email
     end
 
-    test "reset password", %{conn: conn, user: user} do
-      conn = post(conn, ~p"/api/sessions/reset_password", email: user.email)
+    test "send forgot password", %{conn: conn, user: user} do
+      conn = post(conn, ~p"/api/sessions/forgot_password", email: user.email)
 
       assert json_response(conn, 204) == ""
     end
@@ -29,5 +30,17 @@ defmodule RentCarsWeb.Api.SessionControllerTest do
 
     #   assert json_response(conn, 204) == ""
     # end
+
+    test "reset password", %{conn: conn, user: user} do
+      token = Tokenr.generate_forgot_email_token(user)
+
+      conn =
+        post(conn, ~p"/api/sessions/reset_password",
+          token: token,
+          user: %{password: "123456789", password_confirmation: "123456789"}
+        )
+
+      assert json_response(conn, 200)["data"]["user"]["data"]["email"] == user.email
+    end
   end
 end
