@@ -1,4 +1,5 @@
 defmodule RentCars.Mail.ForgotPasswordEmail do
+  use RentCarsWeb, :verified_routes
   import Swoosh.Email
   import Phoenix.Component
   alias Floki
@@ -7,7 +8,7 @@ defmodule RentCars.Mail.ForgotPasswordEmail do
   alias RentCars.Mailer
 
   def create_email(user, token) do
-    url = "/sessions/reset_password?token=#{token}"
+    url = ~p"/api/sessions/reset_password?token=#{token}"
     template = email_content(%{url: url})
     html = heex_to_html(template)
     _text = html_to_text(html)
