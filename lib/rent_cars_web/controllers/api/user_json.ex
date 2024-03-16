@@ -1,7 +1,7 @@
 defmodule RentCarsWeb.Api.UserJSON do
-  def index(%{users: users}) do
-    %{data: for(user <- users, do: data(user))}
-  end
+  # def index(%{users: users}) do
+  #   %{data: for(user <- users, do: data(user))}
+  # end
 
   @doc """
   Renders a single category.

@@ -24,12 +24,15 @@ defmodule RentCarsWeb.Api.SessionControllerTest do
       assert json_response(conn, 204) == ""
     end
 
-    # make this test work
-    # test "reset password with error", %{conn: conn} do
-    #   conn = post(conn, ~p"/api/sessions/reset_password", email: "invalid email")
+    test "throw error when try to reset_password", %{conn: conn} do
+      conn =
+        post(conn, ~p"/api/sessions/reset_password",
+          token: "invalid token",
+          user: %{password: "123456", password_confirmation: "123456"}
+        )
 
-    #   assert json_response(conn, 204) == ""
-    # end
+      assert json_response(conn, 400)["message"] == "Invalid token"
+    end
 
     test "reset password", %{conn: conn, user: user} do
       token = Tokenr.generate_forgot_email_token(user)
