@@ -8,20 +8,15 @@ defmodule RentCars.Mail.ForgotPasswordEmail do
 
   def create_email(user, token) do
     url = "/sessions/reset_password?token=#{token}"
-    template = login_content(%{url: url})
+    template = email_content(%{url: url})
     html = heex_to_html(template)
-    text = html_to_text(html)
+    _text = html_to_text(html)
 
     new()
     |> to({user.first_name, user.email})
     |> from({"RentCars ELXPRO", "aislan.sousamaia@gmail.com"})
     |> subject("RentCars - Reset Password")
     |> html_body(html)
-    |> text_body(text)
-
-    # with {:ok, _metadata} <- Mailer.deliver(email) do
-    #   {:ok, email}
-    # end
   end
 
   def send_forgot_password_email(user, token) do
@@ -32,7 +27,7 @@ defmodule RentCars.Mail.ForgotPasswordEmail do
     end)
   end
 
-  defp login_content(assigns) do
+  defp email_content(assigns) do
     ~H"""
     <h1>Hey there!</h1>
 
