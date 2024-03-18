@@ -2,6 +2,12 @@ defmodule RentCarsWeb.Api.SessionControllerTest do
   use RentCarsWeb.ConnCase
   alias RentCars.Shared.Tokenr
 
+  test "throw an error when user is not authenticated", %{conn: conn} do
+    conn = post(conn, ~p"/api/sessions/me", token: "invalid token")
+
+    assert json_response(conn, 401)["error"] == "Unauthenticated/Invalid Token"
+  end
+
   describe "handle sessions" do
     setup :include_normal_user_token
 
