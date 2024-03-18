@@ -46,7 +46,7 @@ defmodule RentCarsWeb.ConnCase do
   end
 
   def include_admin_user_token(%{conn: conn}) do
-    user = admin_fixture()
+    user = admin_fixture(%{user_name: "admin", email: "admin@email.com", drive_license: "BCA"})
     {:ok, _, token} = Sessions.create(user.email, user.password)
     conn = Plug.Conn.put_req_header(conn, "authorization", "Bearer " <> token)
     {:ok, conn: conn, user: user, password: user.password, token: token}

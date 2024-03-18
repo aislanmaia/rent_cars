@@ -71,6 +71,36 @@ defmodule RentCarsWeb.Api.Admin.CategoryControllerTest do
     end
   end
 
+  describe "normal user permissions should not" do
+    setup [:include_normal_user_token, :create_category]
+
+    test "list categories", %{conn: conn} do
+      conn = get(conn, ~p"/api/admin/categories")
+      assert json_response(conn, 401)
+    end
+
+    test "create category", %{conn: conn} do
+      attrs = %{name: "Sport", description: "pumpkin 123"}
+      conn = post(conn, ~p"/api/admin/categories", category: attrs)
+      assert json_response(conn, 401)
+    end
+
+    test "update category with valid data", %{conn: conn, category: category} do
+      attrs = %{name: "update category name"}
+
+      conn =
+        put(conn, ~p"/api/admin/categories/#{category.id}", category: attrs)
+
+      assert json_response(conn, 401)
+    end
+
+    test "delete category", %{conn: conn, category: category} do
+      conn = delete(conn, ~p"/api/admin/categories/#{category.id}")
+
+      assert response(conn, 401)
+    end
+  end
+
   defp create_category(_) do
     category = category_fixture()
     %{category: category}

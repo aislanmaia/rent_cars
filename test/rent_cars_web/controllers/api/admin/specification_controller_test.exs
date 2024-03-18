@@ -90,6 +90,36 @@ defmodule RentCarsWeb.Api.Admin.SpecificationControllerTest do
     end
   end
 
+  describe "normal user permissions should not" do
+    setup [:include_normal_user_token, :create_specification]
+
+    test "list specifications", %{conn: conn} do
+      conn = get(conn, ~p"/api/admin/specifications")
+      assert json_response(conn, 401)
+    end
+
+    test "create specification", %{conn: conn} do
+      attrs = %{name: "Sport", description: "pumpkin 123"}
+      conn = post(conn, ~p"/api/admin/specifications", specification: attrs)
+      assert json_response(conn, 401)
+    end
+
+    test "update specification with valid data", %{conn: conn, specification: specification} do
+      attrs = %{name: "update specification name"}
+
+      conn =
+        put(conn, ~p"/api/admin/specifications/#{specification.id}", specification: attrs)
+
+      assert json_response(conn, 401)
+    end
+
+    test "delete specification", %{conn: conn, specification: specification} do
+      conn = delete(conn, ~p"/api/admin/specifications/#{specification.id}")
+
+      assert response(conn, 401)
+    end
+  end
+
   defp create_specification(_) do
     specification = specification_fixture()
     %{specification: specification}
