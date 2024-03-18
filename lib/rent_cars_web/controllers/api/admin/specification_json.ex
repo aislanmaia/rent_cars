@@ -1,4 +1,4 @@
-defmodule RentCarsWeb.Api.SpecificationJSON do
+defmodule RentCarsWeb.Api.Admin.SpecificationJSON do
   alias RentCars.Specifications.Specification
 
   @doc """

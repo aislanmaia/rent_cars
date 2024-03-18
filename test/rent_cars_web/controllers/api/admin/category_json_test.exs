@@ -1,7 +1,7 @@
-defmodule RentCarsWeb.Api.CategoryJsonTest do
+defmodule RentCarsWeb.Api.Admin.CategoryJsonTest do
   use ExUnit.Case
   alias RentCars.Categories.Category
-  alias RentCarsWeb.Api.CategoryJSON
+  alias RentCarsWeb.Api.Admin.CategoryJSON
 
   test "index returns a map with data key" do
     categories = [

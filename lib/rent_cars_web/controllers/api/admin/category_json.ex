@@ -1,4 +1,4 @@
-defmodule RentCarsWeb.Api.CategoryJSON do
+defmodule RentCarsWeb.Api.Admin.CategoryJSON do
   def index(%{categories: categories}) do
     %{data: for(category <- categories, do: data(category))}
   end
