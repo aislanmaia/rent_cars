@@ -1,7 +1,7 @@
 defmodule RentCarsWeb.Router do
   use RentCarsWeb, :router
-  alias RentCarsWeb.Middleware.IsAdmin
   alias RentCarsWeb.Middleware.EnsureAuthenticated
+  alias RentCarsWeb.Middleware.IsAdmin
 
   pipeline :browser do
     plug :accepts, ["html"]
