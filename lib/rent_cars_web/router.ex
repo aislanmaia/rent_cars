@@ -1,6 +1,7 @@
 defmodule RentCarsWeb.Router do
   use RentCarsWeb, :router
   alias RentCarsWeb.Middleware.IsAdmin
+  alias RentCarsWeb.Middleware.EnsureAuthenticated
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -17,6 +18,10 @@ defmodule RentCarsWeb.Router do
 
   pipeline :is_admin do
     plug IsAdmin
+  end
+
+  pipeline :authenticated do
+    plug EnsureAuthenticated
   end
 
   scope "/", RentCarsWeb do
@@ -36,10 +41,14 @@ defmodule RentCarsWeb.Router do
       resources "/specifications", SpecificationController
     end
 
-    resources "/users", UserController
+    scope "/" do
+      pipe_through :authenticated
+      post("/sessions/me", SessionController, :me)
+      get "/users/:id", UserController, :show
+    end
 
+    post "/users", UserController, :create
     post("/sessions", SessionController, :create)
-    post("/sessions/me", SessionController, :me)
     post("/sessions/forgot_password", SessionController, :forgot_password)
     post("/sessions/reset_password", SessionController, :reset_password)
   end
