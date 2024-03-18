@@ -1,4 +1,4 @@
-defmodule RentCarsWeb.Api.CategoryController do
+defmodule RentCarsWeb.Api.Admin.CategoryController do
   use RentCarsWeb, :controller
   alias RentCars.Categories
 
@@ -15,7 +15,7 @@ defmodule RentCarsWeb.Api.CategoryController do
     with {:ok, category} <- Categories.create_category(category) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/categories/#{category.id}")
+      |> put_resp_header("location", ~p"/api/admin/categories/#{category.id}")
       |> render(:show, category: category)
     end
   end
@@ -32,7 +32,7 @@ defmodule RentCarsWeb.Api.CategoryController do
 
     with {:ok, category} <- Categories.update_category(category, category_params) do
       conn
-      |> put_resp_header("location", ~p"/api/categories/#{category.id}")
+      |> put_resp_header("location", ~p"/api/admin/categories/#{category.id}")
       |> render(:show, category: category)
     end
   end

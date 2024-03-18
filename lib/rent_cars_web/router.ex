@@ -1,5 +1,6 @@
 defmodule RentCarsWeb.Router do
   use RentCarsWeb, :router
+  alias RentCarsWeb.Middleware.IsAdmin
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -14,6 +15,10 @@ defmodule RentCarsWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :is_admin do
+    plug IsAdmin
+  end
+
   scope "/", RentCarsWeb do
     pipe_through :browser
 
@@ -24,9 +29,14 @@ defmodule RentCarsWeb.Router do
   scope "/api", RentCarsWeb.Api, as: :api do
     pipe_through :api
 
+    scope "/admin", Admin, as: :admin do
+      pipe_through :is_admin
+
+      resources "/categories", CategoryController
+      resources "/specifications", SpecificationController
+    end
+
     resources "/users", UserController
-    resources "/categories", CategoryController
-    resources "/specifications", SpecificationController
 
     post("/sessions", SessionController, :create)
     post("/sessions/me", SessionController, :me)
