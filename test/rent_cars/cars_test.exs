@@ -2,29 +2,29 @@ defmodule RentCars.CarsTest do
   use RentCars.DataCase
 
   alias RentCars.Cars
-  import RentCars.CategoriesFixtures
+  import RentCars.{CategoriesFixtures, CarsFixtures}
+
+  setup do
+    category = category_fixture()
+
+    payload = %{
+      name: "Lancer",
+      description: "Good car",
+      brand: "Mistsubishi",
+      daily_rate: 1000,
+      license_plate: "asdf 1013",
+      fine_amount: 30,
+      category_id: category.id,
+      specifications: [
+        %{name: "wheels", description: "some description"},
+        %{name: "pumpkin wheels", description: "some description"}
+      ]
+    }
+
+    %{payload: payload}
+  end
 
   describe "Cars.create/1" do
-    setup do
-      category = category_fixture()
-
-      payload = %{
-        name: "Lancer",
-        description: "Good car",
-        brand: "Mistsubishi",
-        daily_rate: 1000,
-        license_plate: "asdf 1013",
-        fine_amount: 30,
-        category_id: category.id,
-        specifications: [
-          %{name: "wheels", description: "some description"},
-          %{name: "pumpkin wheels", description: "some description"}
-        ]
-      }
-
-      %{payload: payload}
-    end
-
     test "should create a car with success", %{payload: payload} do
       assert {:ok, car} = Cars.create(payload)
       assert car.name == payload.name
@@ -61,6 +61,25 @@ defmodule RentCars.CarsTest do
       assert %{fine_amount: ["can't be blank"]} = errors_on(changeset)
       assert %{license_plate: ["can't be blank"]} = errors_on(changeset)
       assert %{category_id: ["can't be blank"]} = errors_on(changeset)
+    end
+  end
+
+  describe "Cars.update/1" do
+    test "should update a car with success" do
+      car = car_fixture()
+      payload = %{name: "Lancer 2032"}
+
+      assert {:ok, car} = Cars.update(car.id, payload)
+
+      assert car.name == payload.name
+    end
+
+    test "should throw an error when trying to update license_plate" do
+      car = car_fixture()
+      payload = %{license_plate: "new license plate"}
+
+      assert {:error, changeset} = Cars.update(car.id, payload)
+      assert "you can't update license_plate" in errors_on(changeset).license_plate
     end
   end
 end

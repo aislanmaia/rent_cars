@@ -5,8 +5,8 @@ defmodule RentCars.CategoriesFixtures do
     {:ok, category} =
       attrs
       |> Enum.into(%{
-        description: "some category description",
-        name: "some category name"
+        name: "some category name #{:rand.uniform(10_000)}",
+        description: "some category description #{:rand.uniform(10_000)}"
       })
       |> Categories.create_category()
 
