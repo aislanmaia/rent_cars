@@ -1,8 +1,8 @@
 defmodule RentCars.CarsTest do
+  import RentCars.{CategoriesFixtures, CarsFixtures}
   use RentCars.DataCase
 
   alias RentCars.Cars
-  import RentCars.{CategoriesFixtures, CarsFixtures}
 
   setup do
     category = category_fixture()
@@ -26,8 +26,10 @@ defmodule RentCars.CarsTest do
 
   describe "Cars.get_car!/1" do
     test "can have associations loaded", %{payload: payload} do
-      car = car_fixture()
-      specifications = Cars.with_assoc(car, [:specifications]).specifications
+      specifications =
+        car_fixture(%{specifications: payload.specifications})
+        |> Cars.with_assoc([:specifications])
+        |> Map.get(:specifications)
 
       Enum.each(specifications, fn specification ->
         assert specification.name in Enum.map(payload.specifications, & &1.name)
@@ -44,7 +46,7 @@ defmodule RentCars.CarsTest do
       assert car.brand == payload.brand
       assert car.daily_rate == payload.daily_rate
       assert car.license_plate == String.upcase(payload.license_plate)
-      assert car.fine_amount == payload.fine_amount
+      assert car.fine_amount == Money.new(payload.fine_amount)
       assert car.category_id == payload.category_id
       assert car.available == true
 
@@ -92,6 +94,39 @@ defmodule RentCars.CarsTest do
 
       assert {:error, changeset} = Cars.update(car.id, payload)
       assert "you can't update license_plate" in errors_on(changeset).license_plate
+    end
+  end
+
+  describe "Cars.list_available_cars/0" do
+    test "list all available cars" do
+      category = category_fixture()
+      car_fixture(%{category_id: category.id})
+      car_fixture(%{category_id: category.id, name: "pumpkin"})
+      car_fixture(%{available: false, category_id: category.id})
+
+      assert Cars.list_available_cars() |> Enum.count() == 2
+
+      assert Cars.list_available_cars(name: "pump") |> Enum.count() == 1
+    end
+
+    test "list all available cars by brand" do
+      category = category_fixture()
+      car_fixture(%{category_id: category.id, brand: "pumpkin"})
+      car_fixture(%{category_id: category.id, name: "tesla"})
+
+      assert Cars.list_available_cars() |> Enum.count() == 2
+
+      assert Cars.list_available_cars(brand: "pump") |> Enum.count() == 1
+    end
+
+    test "list all available cars by category" do
+      category = category_fixture(%{name: "pumpking"})
+      car_fixture(%{brand: "pumpkin"})
+      car_fixture(%{category_id: category.id, name: "pumpkin"})
+
+      assert Cars.list_available_cars() |> Enum.count() == 2
+
+      assert Cars.list_available_cars(category: "pump") |> Enum.count() == 1
     end
   end
 end

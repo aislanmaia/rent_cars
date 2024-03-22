@@ -34,6 +34,9 @@ defmodule RentCarsWeb.Router do
   scope "/api", RentCarsWeb.Api, as: :api do
     pipe_through :api
 
+    get "/cars", CarController, :index
+    get "/cars/:id", CarController, :show
+
     scope "/admin", Admin, as: :admin do
       pipe_through :is_admin
 
