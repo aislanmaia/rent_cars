@@ -24,6 +24,18 @@ defmodule RentCars.CarsTest do
     %{payload: payload}
   end
 
+  describe "Cars.get_car!/1" do
+    test "can have associations loaded", %{payload: payload} do
+      car = car_fixture()
+      specifications = Cars.with_assoc(car, [:specifications]).specifications
+
+      Enum.each(specifications, fn specification ->
+        assert specification.name in Enum.map(payload.specifications, & &1.name)
+        assert specification.description in Enum.map(payload.specifications, & &1.description)
+      end)
+    end
+  end
+
   describe "Cars.create/1" do
     test "should create a car with success", %{payload: payload} do
       assert {:ok, car} = Cars.create(payload)

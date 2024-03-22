@@ -43,9 +43,7 @@ defmodule RentCarsWeb.Api.Admin.CategoryControllerTest do
       attrs = %{name: "update category name"}
 
       conn =
-        put(conn, ~p"/api/admin/categories/#{category.id}",
-          category: %{name: "update category name"}
-        )
+        put(conn, ~p"/api/admin/categories/#{category.id}", category: attrs)
 
       assert %{"id" => id} = json_response(conn, 200)["data"]
 

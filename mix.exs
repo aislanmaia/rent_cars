@@ -4,7 +4,7 @@ defmodule RentCars.MixProject do
   def project do
     [
       app: :rent_cars,
-      version: "2.0.0",
+      version: "2.2.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -71,7 +71,8 @@ defmodule RentCars.MixProject do
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:argon2_elixir, "~> 4.0"}
+      {:argon2_elixir, "~> 4.0"},
+      {:money, "~> 1.12"}
     ]
   end
 

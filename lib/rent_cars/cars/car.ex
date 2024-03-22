@@ -14,7 +14,7 @@ defmodule RentCars.Cars.Car do
     field :available, :boolean, default: true
     field :brand, :string
     field :daily_rate, :integer
-    field :fine_amount, :integer
+    field :fine_amount, Money.Ecto.Amount.Type
     field :license_plate, :string
     belongs_to :category, Category
     many_to_many :specifications, Specification, join_through: CarSpecification
