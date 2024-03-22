@@ -4,6 +4,8 @@ defmodule RentCars.Cars do
 
   def get_car!(id), do: Repo.get!(Car, id)
 
+  def with_assoc(car, assoc), do: Repo.preload(car, assoc)
+
   def create(attrs) do
     %Car{}
     |> Car.changeset(attrs)
