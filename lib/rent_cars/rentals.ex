@@ -1,6 +1,16 @@
 defmodule RentCars.Rentals do
+  import Ecto.Query
+
+  alias RentCars.Rentals.Rental
   alias __MODULE__.CreateRental
   alias RentCars.Repo
+
+  def list_rentals(user_id) do
+    # Repo.all(from r in Rental, where: [user_id: ^user_id])
+    Rental
+    |> where([r], r.user_id == ^user_id)
+    |> Repo.all()
+  end
 
   def create(payload) do
     %{

@@ -3,6 +3,16 @@ defmodule RentCarsWeb.Api.RentalController do
   use RentCarsWeb, :controller
   action_fallback RentCarsWeb.FallbackController
 
+  def index(conn, _params) do
+    [user_id] = get_req_header(conn, "user_id")
+
+    rentals =
+      Rentals.list_rentals(user_id) |> Rentals.with_assoc(car: [:category, :specifications])
+
+    conn
+    |> render(:index, rentals: rentals)
+  end
+
   def create(conn, params) do
     [user_id] = get_req_header(conn, "user_id")
     params = Map.put(params, "user_id", user_id)
