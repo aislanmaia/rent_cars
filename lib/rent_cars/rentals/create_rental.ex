@@ -2,10 +2,10 @@ defmodule RentCars.Rentals.CreateRental do
   import Ecto.Query
   import RentCars.Shared.DateValidations, only: [check_if_is_more_than_24_hours: 1]
 
-  alias RentCars.Rentals.Rental
   alias Ecto.Multi
   alias RentCars.Accounts.User
   alias RentCars.Cars.Car
+  alias RentCars.Rentals.Rental
   alias RentCars.Repo
 
   def execute(car_id, expected_return_date, user_id) do

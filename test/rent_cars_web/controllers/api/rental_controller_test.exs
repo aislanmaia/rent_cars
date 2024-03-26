@@ -36,7 +36,7 @@ defmodule RentCarsWeb.Api.RentalControllerTest do
     end
   end
 
-  defp create_expected_return_date() do
+  defp create_expected_return_date do
     NaiveDateTime.utc_now()
     |> then(&%{&1 | month: &1.month + 1})
     |> NaiveDateTime.to_string()
