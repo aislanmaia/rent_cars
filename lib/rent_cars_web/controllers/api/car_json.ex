@@ -5,5 +5,5 @@ defmodule RentCarsWeb.Api.CarJSON do
     %{data: for(car <- cars, do: CarJSON.show(%{car: car}))}
   end
 
-  def show(%{car: car}), do: %{data: CarJSON.show(%{car: car})}
+  def show(%{car: car}), do: CarJSON.show(%{car: car})
 end
