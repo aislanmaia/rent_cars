@@ -43,21 +43,19 @@ defmodule RentCarsWeb.Api.CarControllerTest do
 
       expected =
         %{
-          "data" => %{
-            "id" => car.id,
-            "name" => car.name,
-            "brand" => car.brand,
-            "description" => car.description,
-            "category_id" => car.category_id,
-            "daily_rate" => car.daily_rate,
-            "fine_amount" => Money.to_string(car.fine_amount),
-            "license_plate" => car.license_plate,
-            "specifications" => %{
-              "data" =>
-                SpecificationJSON.index(%{specifications: car.specifications}).data
-                |> Jason.encode!()
-                |> Jason.decode!()
-            }
+          "id" => car.id,
+          "name" => car.name,
+          "brand" => car.brand,
+          "description" => car.description,
+          "category_id" => car.category_id,
+          "daily_rate" => car.daily_rate,
+          "fine_amount" => Money.to_string(car.fine_amount),
+          "license_plate" => car.license_plate,
+          "specifications" => %{
+            "data" =>
+              SpecificationJSON.index(%{specifications: car.specifications}).data
+              |> Jason.encode!()
+              |> Jason.decode!()
           }
         }
 
