@@ -5,7 +5,7 @@ defmodule RentCars.Shared.DateValidationsTest do
   test "throw error if date is less than 24 hours" do
     end_date =
       NaiveDateTime.utc_now()
-      |> then(&%{&1 | hour: &1.hour + 5})
+      |> then(&%{&1 | hour: &1.hour + 2})
       |> NaiveDateTime.to_string()
 
     expected = {:error, "Invalid date"}
