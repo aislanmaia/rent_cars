@@ -5,6 +5,7 @@ defmodule RentCars.Shared.DateValidationsTest do
   test "throw error if date is less than 24 hours" do
     end_date =
       NaiveDateTime.utc_now()
+      |> NaiveDateTime.beginning_of_day()
       |> then(&%{&1 | hour: &1.hour + 2})
       |> NaiveDateTime.to_string()
 

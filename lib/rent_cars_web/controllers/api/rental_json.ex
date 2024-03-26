@@ -1,6 +1,10 @@
 defmodule RentCarsWeb.Api.RentalJSON do
   alias RentCarsWeb.Api.CarJSON
 
+  def index(%{rentals: rentals}) do
+    %{data: for(rental <- rentals, do: data(rental))}
+  end
+
   @doc """
   Renders a single rental.
   """

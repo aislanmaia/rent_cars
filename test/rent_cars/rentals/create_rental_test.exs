@@ -25,6 +25,7 @@ defmodule RentCars.Rentals.CreateRentalTest do
     test "throw error return date is before 24 hours", %{car_available: car, user: user} do
       expected_return_date =
         NaiveDateTime.utc_now()
+        |> NaiveDateTime.beginning_of_day()
         |> then(&%{&1 | hour: &1.hour + 2})
         |> NaiveDateTime.to_string()
 
