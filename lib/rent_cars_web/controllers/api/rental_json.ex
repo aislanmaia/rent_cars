@@ -20,7 +20,7 @@ defmodule RentCarsWeb.Api.RentalJSON do
       expected_return_date: rental.expected_return_date,
       start_date: rental.start_date,
       end_date: rental.end_date,
-      total: rental.total
+      total: Money.to_string((rental.total == nil && Money.new(0)) || rental.total)
     }
   end
 
