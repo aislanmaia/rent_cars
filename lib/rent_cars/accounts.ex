@@ -1,4 +1,5 @@
 defmodule RentCars.Accounts do
+  alias RentCars.Accounts.Avatar
   alias RentCars.Accounts.User
   alias RentCars.Repo
 
@@ -21,6 +22,6 @@ defmodule RentCars.Accounts do
   def upload_photo(user_id, photo) do
     user = get_user!(user_id)
 
-    RentCars.Accounts.Avatar.store({photo, user})
+    Avatar.store({photo, user})
   end
 end
