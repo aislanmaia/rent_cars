@@ -1,8 +1,8 @@
 defmodule RentCars.Rentals do
   import Ecto.Query
 
-  alias RentCars.Rentals.Rental
   alias __MODULE__.CreateRental
+  alias RentCars.Rentals.Rental
   alias RentCars.Repo
 
   def list_rentals(user_id) do

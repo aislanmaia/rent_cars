@@ -2,10 +2,10 @@ defmodule RentCars.Rentals.ReturnCar do
   defstruct rental: nil, days: nil, delay: nil, total_fees: nil
 
   import Ecto.Query
-  alias RentCars.Cars.Car
   alias Ecto.Multi
-  alias RentCars.Repo
+  alias RentCars.Cars.Car
   alias RentCars.Rentals.Rental
+  alias RentCars.Repo
 
   def execute(rental_id, user_id) do
     with %__MODULE__{} = return_rental <- get_rental(rental_id, user_id),
