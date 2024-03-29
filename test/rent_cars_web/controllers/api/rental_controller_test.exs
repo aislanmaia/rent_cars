@@ -2,7 +2,7 @@ defmodule RentCarsWeb.Api.RentalControllerTest do
   use RentCarsWeb.ConnCase
   import RentCars.CarsFixtures
   import RentCars.RentalsFixtures
-  import RentCars.Helper
+  alias RentCars.Helper.Atomizer
 
   describe "handle rentals" do
     setup :include_normal_user_token
@@ -34,7 +34,7 @@ defmodule RentCarsWeb.Api.RentalControllerTest do
       refute start_date == nil
       refute expected_return_date == nil
       assert nil == end_date
-      assert nil == total
+      assert Money.parse!(total).amount == 0
     end
 
     test "list all cars booked", %{conn: conn, user: user} do
@@ -44,7 +44,7 @@ defmodule RentCarsWeb.Api.RentalControllerTest do
       conn = get(conn, ~p"/api/rentals")
 
       result =
-        transform_response(json_response(conn, 200)["data"])
+        Atomizer.execute(json_response(conn, 200)["data"])
         |> hd()
 
       assert car.id == result.car.data.id
@@ -59,15 +59,29 @@ defmodule RentCarsWeb.Api.RentalControllerTest do
 
       Enum.each(car.specifications, fn specification ->
         assert specification.id in Enum.map(
-                 transform_response(result.car.data.specifications.data),
+                 Atomizer.execute(result.car.data.specifications.data),
                  & &1.id
                )
 
         assert specification.name in Enum.map(
-                 transform_response(result.car.data.specifications.data),
+                 Atomizer.execute(result.car.data.specifications.data),
                  & &1.name
                )
       end)
+    end
+
+    test "return car", %{conn: conn, user: user} do
+      car = car_fixture()
+      rental = rental_fixture(%{user_id: user.id, car_id: car.id})
+
+      conn = post(conn, ~p"/api/rentals/return/#{rental.id}")
+
+      result = Atomizer.execute(json_response(conn, 201)["data"])
+
+      assert result.total == Money.new(car.daily_rate * 100) |> Money.to_string()
+      assert not is_nil(result.end_date)
+      assert result.end_date == result.start_date
+      assert result.car.data.available
     end
   end
 

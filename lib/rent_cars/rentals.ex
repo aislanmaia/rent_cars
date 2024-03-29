@@ -2,6 +2,7 @@ defmodule RentCars.Rentals do
   import Ecto.Query
 
   alias __MODULE__.CreateRental
+  alias __MODULE__.ReturnCar
   alias RentCars.Rentals.Rental
   alias RentCars.Repo
 
@@ -23,4 +24,6 @@ defmodule RentCars.Rentals do
   end
 
   def with_assoc(rental, assoc), do: Repo.preload(rental, assoc)
+
+  defdelegate return_car(rental_id, user_id), to: ReturnCar, as: :execute
 end

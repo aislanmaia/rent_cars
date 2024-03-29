@@ -1,12 +1,12 @@
 ExUnit.start()
 Ecto.Adapters.SQL.Sandbox.mode(RentCars.Repo, :manual)
 
-defmodule RentCars.Helper do
+defmodule RentCars.Helper.Atomizer do
   @default_options [deep: true]
 
-  def transform_response(map) do
+  def execute(map) do
     if is_list(map) do
-      for item <- map, do: transform_response(item)
+      for item <- map, do: execute(item)
     else
       atomize_keys(map)
     end

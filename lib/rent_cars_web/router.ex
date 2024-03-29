@@ -54,6 +54,7 @@ defmodule RentCarsWeb.Router do
 
       get("/rentals", RentalController, :index)
       post("/rentals", RentalController, :create)
+      post("/rentals/return/:id", RentalController, :return)
     end
 
     post "/users", UserController, :create
