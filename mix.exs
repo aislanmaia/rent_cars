@@ -73,7 +73,9 @@ defmodule RentCars.MixProject do
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
       {:argon2_elixir, "~> 4.0"},
       {:money, "~> 1.12"},
-      {:timex, "~> 3.7.11"}
+      {:timex, "~> 3.7.11"},
+      {:waffle, "~> 1.1"},
+      {:waffle_ecto, "~> 0.0.12"}
     ]
   end
 
