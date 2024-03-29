@@ -1,7 +1,31 @@
 defmodule RentCars.AccountsTest do
+  alias RentCars.Accounts.Avatar
   use RentCars.DataCase
   alias RentCars.Accounts
   import RentCars.AccountsFixtures
+
+  describe "upload avatar" do
+    test "upload avatar image" do
+      user = user_fixture()
+
+      photo = %Plug.Upload{
+        content_type: "image/png",
+        filename: "avatar.png",
+        path: "test/support/fixtures/avatar.png"
+      }
+
+      assert {:ok, filename} = Accounts.upload_photo(user.id, photo)
+
+      assert filename == "avatar.png"
+
+      assert Avatar.url({"avatar.png", user}, :original) ==
+               "/#{Avatar.storage_dir(nil, {filename, user})}/original.png"
+
+      assert :ok = Avatar.delete({photo.filename, user})
+
+      File.rm_rf!("uploads")
+    end
+  end
 
   describe "get_user" do
     test "get_user/1" do

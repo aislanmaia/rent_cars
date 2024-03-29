@@ -68,3 +68,7 @@ import_config "#{config_env()}.exs"
 # Set default Money currency
 config :money,
   default_currency: :USD
+
+# Set waffle config storage (upload)
+config :waffle,
+  storage: Waffle.Storage.Local
