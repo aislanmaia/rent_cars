@@ -10,7 +10,7 @@ defmodule RentCars.CarsFixtures do
       name: "some car name",
       description: "some car description",
       brand: "some brand",
-      daily_rate: 1000,
+      daily_rate: 100,
       license_plate: "asdf #{rand_number}",
       fine_amount: 30,
       category_id: category_id,

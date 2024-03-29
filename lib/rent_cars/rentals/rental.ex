@@ -9,7 +9,7 @@ defmodule RentCars.Rentals.Rental do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "rentals" do
-    field :total, :integer
+    field :total, Money.Ecto.Amount.Type
     field :start_date, :naive_datetime
     field :end_date, :naive_datetime
     field :expected_return_date, :naive_datetime
