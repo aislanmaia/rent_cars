@@ -29,9 +29,10 @@ defmodule RentCars.Helper do
   end
 
   defp map_atom_put(m, k, v) do
-    cond do
-      is_binary(k) -> Map.put(m, String.to_atom(k), v)
-      true -> Map.put(m, k, v)
+    if is_binary(k) do
+      Map.put(m, String.to_atom(k), v)
+    else
+      Map.put(m, k, v)
     end
   end
 end
