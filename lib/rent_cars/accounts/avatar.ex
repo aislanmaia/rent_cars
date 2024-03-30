@@ -18,7 +18,9 @@ defmodule RentCars.Accounts.Avatar do
     {:convert, "-thumbnail 100x100^ -gravity center -extent 100x100 -format png", :png}
   end
 
-  def filename(version, _) do
+  def filename(version, {_file, _scope}) do
+    # If need to get the filename without extension part
+    # file.file_name |> Path.extname() |> then(&Path.basename(file.file_name, &1))
     version
   end
 
