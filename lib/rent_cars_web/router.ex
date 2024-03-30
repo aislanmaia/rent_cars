@@ -45,6 +45,7 @@ defmodule RentCarsWeb.Router do
       post "/cars/", CarController, :create
       put "/cars/:id", CarController, :update
       get "/cars/:id", CarController, :show
+      patch "/cars/:id/images", CarController, :create_images
     end
 
     scope "/" do
