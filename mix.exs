@@ -75,7 +75,11 @@ defmodule RentCars.MixProject do
       {:money, "~> 1.12"},
       {:timex, "~> 3.7.11"},
       {:waffle, "~> 1.1"},
-      {:waffle_ecto, "~> 0.0.12"}
+      {:waffle_ecto, "~> 0.0.12"},
+      {:ex_aws, "~> 2.1.2"},
+      {:ex_aws_s3, "~> 2.0"},
+      {:hackney, "~> 1.9"},
+      {:sweet_xml, "~> 0.6"}
     ]
   end
 
