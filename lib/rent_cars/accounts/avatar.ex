@@ -1,5 +1,6 @@
 defmodule RentCars.Accounts.Avatar do
   use Waffle.Definition
+  use Waffle.Ecto.Definition
 
   @versions [:original, :thumb]
   @extensions ~w(.jpg .jpeg .png)

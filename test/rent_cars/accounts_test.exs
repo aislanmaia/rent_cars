@@ -14,12 +14,12 @@ defmodule RentCars.AccountsTest do
         path: "test/support/fixtures/avatar.png"
       }
 
-      assert {:ok, filename} = Accounts.upload_photo(user.id, photo)
+      assert {:ok, user_updated} = Accounts.upload_photo(user.id, photo)
 
-      assert filename == "avatar.png"
+      assert user_updated.avatar.file_name == "avatar.png"
 
       assert Avatar.url({"avatar.png", user}, :original) ==
-               "/#{Avatar.storage_dir(nil, {filename, user})}/original.png"
+               "/#{Avatar.storage_dir(nil, {photo.filename, user})}/original.png"
 
       assert :ok = Avatar.delete({photo.filename, user})
 
