@@ -2,6 +2,7 @@ defmodule RentCarsWeb.Api.Admin.CarControllerTest do
   use RentCarsWeb.ConnCase
   import RentCars.CarsFixtures
   import RentCars.CategoriesFixtures
+  alias RentCars.Helper.Atomizer
 
   setup :include_admin_user_token
 
@@ -110,73 +111,35 @@ defmodule RentCarsWeb.Api.Admin.CarControllerTest do
     end
   end
 
-  # describe "car category" do
-  #   setup [:create_category]
+  describe "create_images/2" do
+    test "create car images", %{conn: conn} do
+      car = car_fixture(%{brand: "byd"})
 
-  #   test "update category with valid data", %{conn: conn, category: category} do
-  #     attrs = %{name: "update category name"}
+      images = [
+        %Plug.Upload{
+          content_type: "image/jpg",
+          filename: "car_1.jpg",
+          path: "test/support/fixtures/car_1.jpg"
+        },
+        %Plug.Upload{
+          content_type: "image/jpg",
+          filename: "car_2.jpg",
+          path: "test/support/fixtures/car_2.jpg"
+        },
+        %Plug.Upload{
+          content_type: "image/jpg",
+          filename: "car_3.jpg",
+          path: "test/support/fixtures/car_3.jpg"
+        }
+      ]
 
-  #     conn =
-  #       put(conn, ~p"/api/admin/categories/#{category.id}",
-  #         category: %{name: "update category name"}
-  #       )
+      conn = patch(conn, ~p"/api/admin/cars/#{car.id}/images", images: images)
 
-  #     assert %{"id" => id} = json_response(conn, 200)["data"]
+      %{images: images_result} = Atomizer.execute(json_response(conn, 200)["data"])
 
-  #     conn = get(conn, ~p"/api/admin/categories/#{id}")
-  #     name = String.upcase(attrs.name)
-
-  #     assert %{
-  #              "id" => ^id,
-  #              "name" => ^name
-  #            } = json_response(conn, 200)["data"]
-  #   end
-  # end
-
-  # describe "delete category" do
-  #   setup [:create_category]
-
-  #   test "delete category with valid data", %{conn: conn, category: category} do
-  #     conn = delete(conn, ~p"/api/admin/categories/#{category.id}")
-
-  #     assert response(conn, 204)
-
-  #     assert_error_sent 404, fn -> get(conn, ~p"/api/admin/categories/#{category.id}") end
-  #   end
-  # end
-
-  # describe "normal user permissions should not" do
-  #   setup [:include_normal_user_token, :create_category]
-
-  #   test "list categories", %{conn: conn} do
-  #     conn = get(conn, ~p"/api/admin/categories")
-  #     assert json_response(conn, 401)
-  #   end
-
-  #   test "create category", %{conn: conn} do
-  #     attrs = %{name: "Sport", description: "pumpkin 123"}
-  #     conn = post(conn, ~p"/api/admin/categories", category: attrs)
-  #     assert json_response(conn, 401)
-  #   end
-
-  #   test "update category with valid data", %{conn: conn, category: category} do
-  #     attrs = %{name: "update category name"}
-
-  #     conn =
-  #       put(conn, ~p"/api/admin/categories/#{category.id}", category: attrs)
-
-  #     assert json_response(conn, 401)
-  #   end
-
-  #   test "delete category", %{conn: conn, category: category} do
-  #     conn = delete(conn, ~p"/api/admin/categories/#{category.id}")
-
-  #     assert response(conn, 401)
-  #   end
-  # end
-
-  # defp create_category(_) do
-  #   category = category_fixture()
-  #   %{category: category}
-  # end
+      assert Enum.at(images_result, 0) |> String.contains?("car_1")
+      assert Enum.at(images_result, 1) |> String.contains?("car_2")
+      assert Enum.at(images_result, 2) |> String.contains?("car_3")
+    end
+  end
 end

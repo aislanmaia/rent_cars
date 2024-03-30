@@ -1,4 +1,5 @@
 defmodule RentCarsWeb.Api.Admin.CarJSON do
+  alias RentCars.Cars.CarPhoto
   alias RentCarsWeb.Api.Admin.CategoryJSON
   alias RentCarsWeb.Api.Admin.SpecificationJSON
 
@@ -17,7 +18,8 @@ defmodule RentCarsWeb.Api.Admin.CarJSON do
       license_plate: car.license_plate,
       fine_amount: Money.to_string(car.fine_amount),
       category: load_category(car.category),
-      specifications: load_specifications(car.specifications)
+      specifications: load_specifications(car.specifications),
+      images: load_images(car)
     }
   end
 
@@ -34,6 +36,14 @@ defmodule RentCarsWeb.Api.Admin.CarJSON do
       SpecificationJSON.index(%{specifications: specifications})
     else
       nil
+    end
+  end
+
+  defp load_images(%{images: images} = _car) do
+    if Ecto.assoc_loaded?(images) do
+      Enum.map(images, &CarPhoto.url({&1.image, &1}))
+    else
+      []
     end
   end
 end

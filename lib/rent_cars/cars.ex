@@ -42,11 +42,13 @@ defmodule RentCars.Cars do
         |> join(:inner, [c], ca in assoc(c, :category))
         |> where([_c, ca], ilike(ca.name, ^category_filter))
     end)
-    |> preload([:specifications])
+    |> preload([:specifications, :images])
     |> Repo.all()
   end
 
   def create_images(car_id, images) do
+    images = Enum.map(images, &Map.put(&1, :car_id, car_id))
+
     car_id
     |> get_car!()
     |> Repo.preload([:images])
