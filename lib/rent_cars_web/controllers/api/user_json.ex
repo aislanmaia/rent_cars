@@ -1,4 +1,5 @@
 defmodule RentCarsWeb.Api.UserJSON do
+  alias RentCars.Accounts.Avatar
   # def index(%{users: users}) do
   #   %{data: for(user <- users, do: data(user))}
   # end
@@ -18,7 +19,8 @@ defmodule RentCarsWeb.Api.UserJSON do
       user_name: user.user_name,
       drive_license: user.drive_license,
       email: user.email,
-      role: user.role
+      role: user.role,
+      avatar: Avatar.url({user.avatar, user})
     }
   end
 end

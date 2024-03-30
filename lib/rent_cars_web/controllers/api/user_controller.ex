@@ -18,4 +18,14 @@ defmodule RentCarsWeb.Api.UserController do
     conn
     |> render(:show, user: user)
   end
+
+  def upload_photo(conn, %{"avatar" => params}) do
+    [user_id] = get_req_header(conn, "user_id")
+
+    with {:ok, user} <- Accounts.upload_photo(user_id, params) do
+      conn
+      |> put_status(:created)
+      |> render(:show, user: user)
+    end
+  end
 end
