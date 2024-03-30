@@ -47,6 +47,8 @@ defmodule RentCars.Cars do
   end
 
   def create_images(car_id, images) do
+    images = Enum.map(images, &Map.put(&1, :car_id, car_id))
+
     car_id
     |> get_car!()
     |> Repo.preload([:images])
