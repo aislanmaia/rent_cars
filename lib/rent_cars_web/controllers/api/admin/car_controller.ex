@@ -28,6 +28,8 @@ defmodule RentCarsWeb.Api.Admin.CarController do
   end
 
   def create_images(conn, %{"id" => id, "images" => images}) do
+    images = Enum.map(images, &%{image: &1})
+
     with {:ok, car} <- Cars.create_images(id, images) do
       conn
       |> put_resp_header("location", ~p"/api/admin/cars/#{car.id}")
