@@ -1,8 +1,5 @@
 defmodule RentCarsWeb.Api.UserJSON do
   alias RentCars.Accounts.Avatar
-  # def index(%{users: users}) do
-  #   %{data: for(user <- users, do: data(user))}
-  # end
 
   @doc """
   Renders a single category.

@@ -19,7 +19,7 @@ defmodule RentCarsWeb.Api.RentalControllerTest do
 
       assert %{
                "id" => id,
-               "car" => %{"data" => returned_car},
+               "car" => %{"id" => car_id},
                "user_id" => user_id,
                "start_date" => start_date,
                "end_date" => end_date,
@@ -28,7 +28,7 @@ defmodule RentCarsWeb.Api.RentalControllerTest do
              } =
                json_response(conn, 201)["data"]
 
-      assert payload.car_id == returned_car["id"]
+      assert payload.car_id == car_id
       assert user.id == user_id
       refute id == nil
       refute start_date == nil

@@ -17,6 +17,6 @@ defmodule RentCars.Cars.CarSpecification do
   def changeset(car_specification, attrs) do
     car_specification
     |> cast(attrs, [])
-    |> validate_required([])
+    |> validate_required([:car, :specification])
   end
 end

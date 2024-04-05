@@ -18,7 +18,7 @@ defmodule RentCarsWeb.Api.RentalController do
     params = Map.put(params, "user_id", user_id)
 
     with {:ok, %{rental: rental}} <- Rentals.create(params) do
-      rental = rental |> Rentals.with_assoc([:car])
+      # rental = rental |> Rentals.with_assoc([:car])
 
       conn
       |> put_status(:created)
