@@ -28,7 +28,8 @@ defmodule RentCarsWeb.Api.CarControllerTest do
                 SpecificationJSON.index(%{specifications: car.specifications}).data
                 |> Jason.encode!()
                 |> Jason.decode!()
-            }
+            },
+            "images" => []
           }
         }
       ]
@@ -58,7 +59,8 @@ defmodule RentCarsWeb.Api.CarControllerTest do
               SpecificationJSON.index(%{specifications: car.specifications}).data
               |> Jason.encode!()
               |> Jason.decode!()
-          }
+          },
+          "images" => []
         }
 
       assert expected == json_response(conn, 200)["data"]

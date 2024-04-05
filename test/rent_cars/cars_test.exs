@@ -64,7 +64,14 @@ defmodule RentCars.CarsTest do
     end
 
     test "should not missing required fields" do
-      attrs = %{}
+      attrs = %{
+        specifications: [
+          %{
+            name: "",
+            description: ""
+          }
+        ]
+      }
 
       assert {:error, changeset} = Cars.create(attrs)
 
@@ -75,6 +82,9 @@ defmodule RentCars.CarsTest do
       assert %{fine_amount: ["can't be blank"]} = errors_on(changeset)
       assert %{license_plate: ["can't be blank"]} = errors_on(changeset)
       assert %{category_id: ["can't be blank"]} = errors_on(changeset)
+
+      assert %{specifications: [%{name: ["can't be blank"], description: ["can't be blank"]}]} =
+               errors_on(changeset)
     end
   end
 
@@ -167,6 +177,29 @@ defmodule RentCars.CarsTest do
                  "car_2.jpg",
                  "car_3.jpg"
                ]
+    end
+
+    test "throw error when file is invalid" do
+      car = car_fixture(%{brand: "byd"})
+
+      images = [
+        %{
+          image: %Plug.Upload{
+            content_type: "image/jpg",
+            filename: "car_1.doc",
+            path: "test/support/fixtures/car_1.jpg"
+          }
+        }
+      ]
+
+      assert {:error, changeset} = Cars.create_images(car.id, images)
+
+      field_error =
+        errors_on(changeset).images
+        |> hd
+        |> Map.get(:image)
+
+      assert "file type is invalid" in field_error
     end
   end
 end

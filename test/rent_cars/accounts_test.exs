@@ -25,6 +25,19 @@ defmodule RentCars.AccountsTest do
 
       File.rm_rf!("uploads")
     end
+
+    test "throw invalid type error" do
+      user = user_fixture()
+
+      photo = %Plug.Upload{
+        content_type: "image/png",
+        filename: "avatar.mp4",
+        path: "test/support/fixtures/avatar.png"
+      }
+
+      assert {:error, changeset} = Accounts.upload_photo(user.id, photo)
+      assert "file type is invalid" in errors_on(changeset).avatar
+    end
   end
 
   describe "get_user" do
