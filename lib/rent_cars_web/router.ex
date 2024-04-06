@@ -43,6 +43,8 @@ defmodule RentCarsWeb.Router do
       get "/users", UserController, :index
 
       resources "/categories", CategoryController
+      post "/categories/import", CategoryController, :import
+
       resources "/specifications", SpecificationController
       post "/cars/", CarController, :create
       put "/cars/:id", CarController, :update

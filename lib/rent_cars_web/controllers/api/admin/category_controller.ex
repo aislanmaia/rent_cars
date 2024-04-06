@@ -44,4 +44,14 @@ defmodule RentCarsWeb.Api.Admin.CategoryController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def import(conn, params) do
+    file = params["file"]
+
+    with {:ok, _file} <- Categories.import_categories(file) do
+      conn
+      |> put_status(:created)
+      |> json(:ok)
+    end
+  end
 end
