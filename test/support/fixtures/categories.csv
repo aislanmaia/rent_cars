@@ -1,0 +1,4 @@
+name,description
+Hatch,Carro de carroceria pequena
+SUV,Carro de carroceria alta
+Sedan,Carro de carroceria maior que Hatch e mais baixo que SUV

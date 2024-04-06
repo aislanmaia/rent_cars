@@ -1,5 +1,6 @@
 defmodule RentCars.Categories do
   alias __MODULE__.Category
+  alias RentCars.Categories.ImportCSV
   alias RentCars.Repo
 
   def list_categories do
@@ -24,5 +25,9 @@ defmodule RentCars.Categories do
 
   def delete_category(category) do
     Repo.delete(category)
+  end
+
+  def import_categories(file) do
+    ImportCSV.execute(file)
   end
 end

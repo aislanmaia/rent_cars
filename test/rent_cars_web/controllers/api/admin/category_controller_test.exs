@@ -99,6 +99,20 @@ defmodule RentCarsWeb.Api.Admin.CategoryControllerTest do
     end
   end
 
+  describe "import categories" do
+    test "import categories through CSV", %{conn: conn} do
+      file = %Plug.Upload{
+        content_type: "text/csv",
+        filename: "categories.csv",
+        path: "test/support/fixtures/categories.csv"
+      }
+
+      conn = post(conn, ~p"/api/admin/categories/import", file: file)
+
+      assert "ok" = json_response(conn, 201)
+    end
+  end
+
   defp create_category(_) do
     category = category_fixture()
     %{category: category}
